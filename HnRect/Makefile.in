@@ -64,13 +64,10 @@
 
        LIB_OBJS = $(LIB_SRCS_CC:%.c=%.o) $(LIB_SRCS_CXX:%.cc=%.o)
 
-            LIB = HnRect.a
+            LIB = libHnRect.a
 
       TEST_SRCS = HnRangeTest.cc HnRectTest.cc
       TEST_OBJS = $(TEST_SRCS:%.cc=%.o)
-
-      TEST_EXES = HnRangeTest HnRectTest
-      TEST_LIBS = ../HnObject/HnObject.a -lm
 
            SRCS = $(LIB_SRCS) $(TEST_SRCS)
 
@@ -101,7 +98,7 @@ includes:
 	  done)
 
 clean:
-	rm -f a.out core *.bak *.tmp *~ \#*\# *.o $(LIB) $(TEST_EXES)
+	rm -f a.out core *.bak *.tmp *~ \#*\# *.o $(LIB)
 
 realclean: clean
 	rm -f $(PTR_HDRS) $(PTR_SRCS)
@@ -111,7 +108,7 @@ distclean: clean
 
 install:
 
-test: $(TEST_EXES)
+test:
 
 HnRangeTest: HnRangeTest.o $(LIB)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o \

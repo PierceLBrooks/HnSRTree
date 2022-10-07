@@ -71,7 +71,7 @@
 
        LIB_OBJS = $(LIB_SRCS_CC:%.c=%.o) $(LIB_SRCS_CXX:%.cc=%.o)
 
-            LIB = HnSRTree.a
+            LIB = libHnSRTree.a
 
            SRCS = $(LIB_SRCS)
 
@@ -102,7 +102,7 @@ includes:
 	  done)
 
 clean:
-	rm -f a.out core *.bak *.tmp *~ \#*\# *.o $(LIB) $(TEST_EXES)
+	rm -f a.out core *.bak *.tmp *~ \#*\# *.o $(LIB)
 
 realclean: clean
 	rm -f $(PTR_HDRS) $(PTR_SRCS)

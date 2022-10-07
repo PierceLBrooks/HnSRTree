@@ -21,7 +21,7 @@
 #
 
            DIRS = include HnObject HnRect HnSRTree lib \
-                  c++-samples c-samples test
+                  c++-samples c-samples
 
     CURRENT_DIR	= .
 
@@ -41,7 +41,7 @@
        COMPRESS = gzip
 
 all: config.h $(DIRS)
-	@PATH=`pwd`/$(UTILDIR):$$PATH; export PATH; \
+	@PATH=`pwd`/utils:$$PATH; export PATH; cp `pwd`/config.h `pwd`/include/HnSRTree/config.h; \
 	for d in $(DIRS); \
 	do \
 	(cd $$d && echo "making in $(CURRENT_DIR)/$$d" && \
@@ -50,7 +50,7 @@ all: config.h $(DIRS)
 	done
 
 install: $(DIRS)
-	@PATH=`pwd`/$(UTILDIR):$$PATH; export PATH; \
+	@PATH=`pwd`/utils:$$PATH; export PATH; \
 	for d in $(DIRS); \
 	do \
 	(cd $$d && echo "installing in $(CURRENT_DIR)/$$d" && \
@@ -97,7 +97,7 @@ includes: config.h $(DIRS)
 	done
 
 depend: Makefile $(DIRS)
-	@PATH=`pwd`/$(UTILDIR):$$PATH; export PATH; \
+	@PATH=`pwd`/utils:$$PATH; export PATH; \
 	for d in $(DIRS); \
 	do \
 	(cd $$d && echo "depending in $(CURRENT_DIR)/$$d" && \

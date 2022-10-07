@@ -54,8 +54,8 @@
                   fetchInRect fetchNN fetchColoredNN \
                   storeRecords removeRecords \
                   printIndex checkIndex
-        DEPLIBS = ../lib/libHnSRTree.a
-           LIBS = ../lib/libHnSRTree.a -lm
+        DEPLIBS = ../lib/libHnSRTree.a ../lib/libHnRect.a ../lib/libHnObject.a
+           LIBS = ../lib/libHnSRTree.a ../lib/libHnRect.a ../lib/libHnObject.a -lm
             LIB =
 
          RANLIB = @RANLIB@

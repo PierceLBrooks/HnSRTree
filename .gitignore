@@ -1,4 +1,10 @@
 Makefile
-build
-config.h
+config.*
+stamp-h
+*.o
+*.obj
+*.a
+*.so
+/build
+/bin
 

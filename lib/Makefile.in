@@ -36,9 +36,8 @@
 
 all: $(LIB)
 
-$(LIB): Makefile *.o
-	rm -f $@
-	ar cr $@ *.o
+$(LIB): Makefile
+	cp $(top_srcdir)/HnObject/libHnObject.a `pwd`/libHnObject.a; cp $(top_srcdir)/HnRect/libHnRect.a `pwd`/libHnRect.a; cp $(top_srcdir)/HnSRTree/libHnSRTree.a `pwd`/libHnSRTree.a
 	$(RANLIB) $@
 
 Makefile: $(top_srcdir)/config.status Makefile.in
@@ -48,7 +47,7 @@ Makefile: $(top_srcdir)/config.status Makefile.in
 includes:
 
 clean:
-	rm -f a.out core *.bak *.tmp *~ \#*\# *.o $(LIB) $(TEST_EXES)
+	rm -f a.out core *.bak *.tmp *~ \#*\# *.o $(LIB)
 
 realclean: clean
 

@@ -83,19 +83,13 @@
 
        LIB_OBJS = $(LIB_SRCS_CC:%.c=%.o) $(LIB_SRCS_CXX:%.cc=%.o)
 
-            LIB = HnObject.a
+            LIB = libHnObject.a
 
       TEST_SRCS = HnMallocTest.cc \
                   HnBinarySearchTest.cc \
                   HnQuickSortTest.cc HnQuickSelectTest.cc \
                   HnStringTest.cc HnBlockStreamTest.cc HnBlockFileTest.cc \
                   HnFTypeArrayTest.cc HnClassArrayTest.cc HnPropertiesTest.cc
-      TEST_OBJS = $(EXE_SRCS:%.cc=%.o)
-
-      TEST_EXES = HnMallocTest \
-                  HnBinarySearchTest HnQuickSortTest HnQuickSelectTest \
-                  HnStringTest HnBlockStreamTest HnBlockFileTest \
-                  HnFTypeArrayTest HnClassArrayTest HnPropertiesTest
 
            SRCS = $(LIB_SRCS) $(TEST_SRCS)
 
@@ -126,7 +120,7 @@ includes:
 	  done)
 
 clean:
-	rm -f a.out core *.bak *.tmp *~ \#*\# *.o $(LIB) $(TEST_EXES)
+	rm -f a.out core *.bak *.tmp *~ \#*\# *.o $(LIB)
 
 realclean: clean
 	rm -f $(PTR_HDRS) $(PTR_SRCS)
@@ -136,7 +130,7 @@ distclean: clean
 
 install:
 
-test: $(TEST_EXES)
+test:
 
 HnMallocTest: HnMallocTest.o $(LIB)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o $(LIB) $(LDFLAGS) $(LDLIBS)
