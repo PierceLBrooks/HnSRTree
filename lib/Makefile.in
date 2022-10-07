@@ -1,0 +1,63 @@
+#
+# Makefile.in for HnSRTree/lib
+# Copyright (C) 1997 Norio Katayama
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Library General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Library General Public License for more details.
+#
+# You should have received a copy of the GNU Library General Public
+# License along with this library; if not, write to the Free
+# Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+# 10/15/96 katayama@rd.nacsis.ac.jp
+# $Id: Makefile.in,v 1.3 1997/06/02 12:29:20 katayama Exp $
+#
+
+         prefix	= @prefix@
+    exec_prefix	= @exec_prefix@
+         bindir	= @bindir@
+         libdir = @libdir@
+         srcdir = @srcdir@
+     top_srcdir	= @top_srcdir@
+
+         curdir = lib
+
+            LIB = libHnSRTree.a
+
+         RANLIB = @RANLIB@
+         DEPEND = makedepend
+
+all: $(LIB)
+
+$(LIB): Makefile *.o
+	rm -f $@
+	ar cr $@ *.o
+	$(RANLIB) $@
+
+Makefile: $(top_srcdir)/config.status Makefile.in
+	(cd $(top_srcdir) && \
+	 CONFIG_FILES=$(curdir)/Makefile CONFIG_HEADERS= ./config.status)
+
+includes:
+
+clean:
+	rm -f a.out core *.bak *.tmp *~ \#*\# *.o $(LIB) $(TEST_EXES)
+
+realclean: clean
+
+distclean: clean
+	rm -f Makefile
+
+install:
+	cp -p $(LIB) $(libdir)
+
+test:
+
+depend:

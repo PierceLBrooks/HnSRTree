@@ -1,0 +1,174 @@
+#
+# Makefile.in for HnSRTree/HnObject
+# Copyright (C) 1997 Norio Katayama
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Library General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Library General Public License for more details.
+#
+# You should have received a copy of the GNU Library General Public
+# License along with this library; if not, write to the Free
+# Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+# 07/29/96 katayama@rd.nacsis.ac.jp
+# $Id: Makefile.in,v 1.12 2002/09/10 11:31:22 katayama Exp $
+#
+
+         prefix	= @prefix@
+    exec_prefix	= @exec_prefix@
+         bindir	= @bindir@
+         libdir = @libdir@
+         srcdir = @srcdir@
+     top_srcdir	= @top_srcdir@
+
+         curdir = HnObject
+
+        DEFINES	= @DEFS@
+
+	     CC = @CC@
+         CFLAGS = $(DEFINES) @CFLAGS@
+
+            CXX = @CXX@
+       CXXFLAGS = $(DEFINES) @CXXFLAGS@
+
+            CCC = $(CXX)
+        CCFLAGS = $(CXXFLAGS)
+
+       CPPFLAGS = @CPPFLAGS@
+        LDFLAGS = @LDFLAGS@
+         LDLIBS = @LIBS@
+
+       OBJ_SRCS = HnStringObj.cc HnStringBufferObj.cc HnDataItemObj.cc \
+                  HnBlockStreamObj.cc HnBlockFileObj.cc \
+                  HnPropertiesObj.cc HnStatisticsObj.cc HnTimesObj.cc
+       OBJ_HDRS = $(OBJ_SRCS:%.cc=%.hh)
+
+       PTR_SRCS = $(OBJ_SRCS:%Obj.cc=%.cc)
+       PTR_HDRS = $(PTR_SRCS:%.cc=%.hh)
+
+    LIB_HDRS_CC = HnBool.h HnAbort.h HnMalloc.h HnGetOpt.h HnFPControl.h \
+                  HnClassArraySt.h HnClassArraySt.c \
+                  HnStringSt.h HnDataItemSt.h \
+                  HnStringBufferSt.h HnPropertiesSt.h HnStatisticsSt.h \
+                  HnTimesSt.h HnTimesStatsSt.h
+   LIB_HDRS_CXX = HnObject.hh HnPointer.hh HnGenericArray.hh \
+                  HnBinarySearch.hh HnQuickSort.hh HnQuickSelect.hh \
+                  $(OBJ_HDRS) $(PTR_HDRS) \
+                  HnClassArray.hh HnClassArray.cc \
+		  HnFTypeArray.hh HnFTypeArray.cc \
+		  HnFTcharArray.hh HnFTucharArray.hh \
+                  HnFTintArray.hh HnFTuintArray.hh \
+                  HnFTlongArray.hh HnFTulongArray.hh \
+                  HnFTfloatArray.hh HnFTdoubleArray.hh
+       LIB_HDRS = $(LIB_HDRS_CC) $(LIB_HDRS_CXX)
+
+    LIB_SRCS_CC = HnAbort.c HnMalloc.c HnGetOpt.c \
+                  HnStringSt.c HnDataItemSt.c \
+                  HnStringBufferSt.c HnPropertiesSt.c HnStatisticsSt.c \
+                  HnTimesSt.c HnTimesStatsSt.c
+   LIB_SRCS_CXX = HnObject.cc HnPointer.cc HnGenericArray.cc \
+                  HnBinarySearch.cc HnQuickSort.cc HnQuickSelect.cc \
+                  $(OBJ_SRCS) $(PTR_SRCS) \
+		  HnFTcharArray.cc HnFTucharArray.cc \
+                  HnFTintArray.cc HnFTuintArray.cc \
+                  HnFTlongArray.cc HnFTulongArray.cc \
+                  HnFTfloatArray.cc HnFTdoubleArray.cc
+       LIB_SRCS = $(LIB_SRCS_CC) $(LIB_SRCS_CXX)
+
+       LIB_OBJS = $(LIB_SRCS_CC:%.c=%.o) $(LIB_SRCS_CXX:%.cc=%.o)
+
+            LIB = HnObject.a
+
+      TEST_SRCS = HnMallocTest.cc \
+                  HnBinarySearchTest.cc \
+                  HnQuickSortTest.cc HnQuickSelectTest.cc \
+                  HnStringTest.cc HnBlockStreamTest.cc HnBlockFileTest.cc \
+                  HnFTypeArrayTest.cc HnClassArrayTest.cc HnPropertiesTest.cc
+      TEST_OBJS = $(EXE_SRCS:%.cc=%.o)
+
+      TEST_EXES = HnMallocTest \
+                  HnBinarySearchTest HnQuickSortTest HnQuickSelectTest \
+                  HnStringTest HnBlockStreamTest HnBlockFileTest \
+                  HnFTypeArrayTest HnClassArrayTest HnPropertiesTest
+
+           SRCS = $(LIB_SRCS) $(TEST_SRCS)
+
+         RANLIB = @RANLIB@
+         DEPEND = makedepend
+           PERL = perl
+
+%.cc: %Obj.hh
+	$(PERL) $(top_srcdir)/utils/obj2ptr $<
+
+all: $(LIB)
+
+$(LIB): Makefile $(LIB_SRCS) $(LIB_OBJS)
+	rm -f $@
+	ar cr $@ $(LIB_OBJS)
+	$(RANLIB) $@
+
+Makefile: $(top_srcdir)/config.status Makefile.in
+	(cd $(top_srcdir) && \
+	 CONFIG_FILES=$(curdir)/Makefile CONFIG_HEADERS= ./config.status)
+
+includes:
+	@(set -x; cd $(top_srcdir)/include/HnSRTree; for f in $(LIB_HDRS); do \
+	  rm -f $$f; ln -s ../../$(curdir)/$$f .; \
+	  done)
+	@(set -x; cd $(top_srcdir)/lib; for f in $(LIB_OBJS); do \
+	  rm -f $$f; ln -s ../$(curdir)/$$f .; \
+	  done)
+
+clean:
+	rm -f a.out core *.bak *.tmp *~ \#*\# *.o $(LIB) $(TEST_EXES)
+
+realclean: clean
+	rm -f $(PTR_HDRS) $(PTR_SRCS)
+
+distclean: clean
+	rm -f Makefile
+
+install:
+
+test: $(TEST_EXES)
+
+HnMallocTest: HnMallocTest.o $(LIB)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o $(LIB) $(LDFLAGS) $(LDLIBS)
+
+HnBinarySearchTest: HnBinarySearchTest.o $(LIB)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o $(LIB) $(LDFLAGS) $(LDLIBS)
+
+HnQuickSortTest: HnQuickSortTest.o $(LIB)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o $(LIB) $(LDFLAGS) $(LDLIBS)
+
+HnQuickSelectTest: HnQuickSelectTest.o $(LIB)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o $(LIB) $(LDFLAGS) $(LDLIBS)
+
+HnStringTest: HnStringTest.o $(LIB)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o $(LIB) $(LDFLAGS) $(LDLIBS)
+
+HnBlockStreamTest: HnBlockStreamTest.o $(LIB)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o $(LIB) $(LDFLAGS) $(LDLIBS)
+
+HnBlockFileTest: HnBlockFileTest.o $(LIB)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o $(LIB) $(LDFLAGS) $(LDLIBS)
+
+HnFTypeArrayTest: HnFTypeArrayTest.o $(LIB)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o $(LIB) $(LDFLAGS) $(LDLIBS)
+
+HnClassArrayTest: HnClassArrayTest.o $(LIB)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o $(LIB) $(LDFLAGS) $(LDLIBS)
+
+HnPropertiesTest: HnPropertiesTest.o $(LIB)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o $(LIB) $(LDFLAGS) $(LDLIBS)
+
+depend: $(SRCS) Makefile
+	$(DEPEND) $(DEPENDFLAGS) -- $(CXXFLAGS) $(CPPFLAGS) -- $(SRCS)
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.

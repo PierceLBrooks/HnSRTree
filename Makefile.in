@@ -1,0 +1,145 @@
+#
+# Makefile.in for HnSRTree
+# Copyright (C) 1997 Norio Katayama
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Library General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Library General Public License for more details.
+#
+# You should have received a copy of the GNU Library General Public
+# License along with this library; if not, write to the Free
+# Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+# 07/29/96 katayama@rd.nacsis.ac.jp
+# $Id: Makefile.in,v 1.6 2000/06/10 11:31:09 katayama Exp $
+#
+
+           DIRS = include HnObject HnRect HnSRTree lib \
+                  c++-samples c-samples test
+
+    CURRENT_DIR	= .
+
+         prefix = @prefix@
+    exec_prefix = @exec_prefix@
+         bindir = @bindir@
+         libdir = @libdir@
+
+         srcdir = @srcdir@
+     top_srcdir = @top_srcdir@
+         curdir = .
+
+        INSTALL	= @INSTALL@
+      
+     TOPDIRNAME = HnSRTree
+    ARCHIVEFILE = HnSRTree.tgz
+       COMPRESS = gzip
+
+all: config.h $(DIRS)
+	@PATH=`pwd`/$(UTILDIR):$$PATH; export PATH; \
+	for d in $(DIRS); \
+	do \
+	(cd $$d && echo "making in $(CURRENT_DIR)/$$d" && \
+	$(MAKE) $(MFLAGS) "CURRENT_DIR=$(CURRENT_DIR)/$$d" \
+	all); \
+	done
+
+install: $(DIRS)
+	@PATH=`pwd`/$(UTILDIR):$$PATH; export PATH; \
+	for d in $(DIRS); \
+	do \
+	(cd $$d && echo "installing in $(CURRENT_DIR)/$$d" && \
+	$(MAKE) $(MFLAGS) "CURRENT_DIR=$(CURRENT_DIR)/$$d" \
+	install); \
+	done
+
+clean: $(DIRS)
+	@for d in $(DIRS); \
+	do \
+	(cd $$d && echo "cleaning in $(CURRENT_DIR)/$$d" && \
+	$(MAKE) $(MFLAGS) "CURRENT_DIR=$(CURRENT_DIR)/$$d" \
+	clean); \
+	done
+	rm -f a.out core *.bak *.tmp *~ *.o
+
+distclean:
+	@for d in $(DIRS); \
+	do \
+	(cd $$d && echo "distclean in $(CURRENT_DIR)/$$d" && \
+	$(MAKE) $(MFLAGS) "CURRENT_DIR=$(CURRENT_DIR)/$$d" \
+	distclean); \
+	done
+	rm -f a.out core *.bak *.tmp *~ *.o
+	rm -f Makefile config.h config.status config.cache config.log stamp-h
+
+realclean:
+	rm -f a.out core *.bak *.tmp *~ *.o
+	@for d in $(DIRS); \
+	do \
+	(cd $$d && echo "realclean in $(CURRENT_DIR)/$$d" && \
+	$(MAKE) $(MFLAGS) "CURRENT_DIR=$(CURRENT_DIR)/$$d" \
+	realclean); \
+	done
+
+includes: config.h $(DIRS)
+	@(set -x && \
+          cd include/HnSRTree && rm -f config.h && ln -s ../../config.h .)
+	@for d in $(DIRS); \
+	do \
+	(cd $$d && echo "including in $(CURRENT_DIR)/$$d" && \
+	$(MAKE) $(MFLAGS) "CURRENT_DIR=$(CURRENT_DIR)/$$d" \
+	includes); \
+	done
+
+depend: Makefile $(DIRS)
+	@PATH=`pwd`/$(UTILDIR):$$PATH; export PATH; \
+	for d in $(DIRS); \
+	do \
+	(cd $$d && echo "depending in $(CURRENT_DIR)/$$d" && \
+	$(MAKE) $(MFLAGS) "CURRENT_DIR=$(CURRENT_DIR)/$$d" \
+	depend); \
+	done
+
+archive:
+	-(cd .. && mv -f $(ARCHIVEFILE) $(ARCHIVEFILE)~)
+	(cd ..  && tar cvf - $(TOPDIRNAME) | $(COMPRESS) > $(ARCHIVEFILE))
+	       
+#
+# For the automatic remaking of configuration files
+#
+
+configure: configure.in
+	autoconf
+     
+#
+# NOTE:
+#       Because CVS updates only the files of which contents are changed,
+#       the file `stamp-h.in' contains the time of the file creation.
+#
+# autoheader might not change config.h.in, so touch a stamp file.
+config.h.in: stamp-h.in
+stamp-h.in: configure configure.in	# stamp-h.in: configure.in
+	autoheader
+	date > stamp-h.in		# echo timestamp > stamp-h.in
+
+config.h: stamp-h
+stamp-h: config.h.in config.status
+	./config.status
+     
+Makefile: $(top_srcdir)/config.status Makefile.in
+	(cd $(top_srcdir) && \
+	 CONFIG_FILES=$(curdir)/Makefile CONFIG_HEADERS= ./config.status)
+
+config.status: configure
+	-rm -f config.cache
+	./configure
+
+Makefiles: Makefile.in config.status
+	./config.status
+     
+# DO NOT DELETE THIS LINE -- make depend depends on it.

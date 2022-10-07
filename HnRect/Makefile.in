@@ -1,0 +1,127 @@
+#
+# Makefile.in for HnSRTree/HnRect
+# Copyright (C) 1997 Norio Katayama
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Library General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Library General Public License for more details.
+#
+# You should have received a copy of the GNU Library General Public
+# License along with this library; if not, write to the Free
+# Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+# 07/29/96 katayama@rd.nacsis.ac.jp
+# $Id: Makefile.in,v 1.8 2002/09/13 09:01:45 katayama Exp $
+#
+
+         prefix	= @prefix@
+    exec_prefix	= @exec_prefix@
+         bindir	= @bindir@
+         libdir = @libdir@
+         srcdir = @srcdir@
+     top_srcdir	= @top_srcdir@
+
+         curdir = HnRect
+
+        DEFINES	= @DEFS@
+
+	     CC = @CC@
+         CFLAGS = $(DEFINES) @CFLAGS@
+
+            CXX = @CXX@
+       CXXFLAGS = $(DEFINES) @CXXFLAGS@
+
+            CCC = $(CXX)
+        CCFLAGS = $(CXXFLAGS)
+
+       CPPFLAGS = @CPPFLAGS@
+        LDFLAGS = @LDFLAGS@
+         LDLIBS = @LIBS@
+
+       OBJ_SRCS = HnPointObj.cc HnSphereObj.cc HnRectObj.cc
+       OBJ_OBJS = $(OBJ_SRCS:%.cc=%.o)
+       OBJ_HDRS = $(OBJ_SRCS:%.cc=%.hh)
+
+       PTR_SRCS = $(OBJ_SRCS:%Obj.cc=%.cc)
+       PTR_OBJS = $(PTR_SRCS:%.cc=%.o)
+       PTR_HDRS = $(PTR_SRCS:%.cc=%.hh)
+
+    LIB_HDRS_CC = HnPointSt.h HnSphereSt.h HnRangeSt.h HnRectSt.h
+   LIB_HDRS_CXX = $(OBJ_HDRS) $(PTR_HDRS) \
+                  HnRange.hh
+       LIB_HDRS = $(LIB_HDRS_CC) $(LIB_HDRS_CXX)
+
+    LIB_SRCS_CC = HnPointSt.c HnSphereSt.c HnRectSt.c
+   LIB_SRCS_CXX = $(OBJ_SRCS) $(PTR_SRCS) \
+                  HnRange.cc
+       LIB_SRCS = $(LIB_SRCS_CC) $(LIB_SRCS_CXX)
+
+       LIB_OBJS = $(LIB_SRCS_CC:%.c=%.o) $(LIB_SRCS_CXX:%.cc=%.o)
+
+            LIB = HnRect.a
+
+      TEST_SRCS = HnRangeTest.cc HnRectTest.cc
+      TEST_OBJS = $(TEST_SRCS:%.cc=%.o)
+
+      TEST_EXES = HnRangeTest HnRectTest
+      TEST_LIBS = ../HnObject/HnObject.a -lm
+
+           SRCS = $(LIB_SRCS) $(TEST_SRCS)
+
+         RANLIB = @RANLIB@
+         DEPEND = makedepend
+           PERL = perl
+
+%.cc: %Obj.hh
+	$(PERL) $(top_srcdir)/utils/obj2ptr $<
+
+all: $(LIB)
+
+$(LIB): Makefile $(LIB_SRCS) $(LIB_OBJS)
+	rm -f $@
+	ar cr $@ $(LIB_OBJS)
+	$(RANLIB) $@
+
+Makefile: $(top_srcdir)/config.status Makefile.in
+	(cd $(top_srcdir) && \
+	 CONFIG_FILES=$(curdir)/Makefile CONFIG_HEADERS= ./config.status)
+
+includes:
+	@(set -x; cd $(top_srcdir)/include/HnSRTree; for f in $(LIB_HDRS); do \
+	  rm -f $$f; ln -s ../../$(curdir)/$$f .; \
+	  done)
+	@(set -x; cd $(top_srcdir)/lib; for f in $(LIB_OBJS); do \
+	  rm -f $$f; ln -s ../$(curdir)/$$f .; \
+	  done)
+
+clean:
+	rm -f a.out core *.bak *.tmp *~ \#*\# *.o $(LIB) $(TEST_EXES)
+
+realclean: clean
+	rm -f $(PTR_HDRS) $(PTR_SRCS)
+
+distclean: clean
+	rm -f Makefile
+
+install:
+
+test: $(TEST_EXES)
+
+HnRangeTest: HnRangeTest.o $(LIB)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o \
+	$(LDFLAGS) $(LDLIBS) $(LIB) $(TEST_LIBS)
+
+HnRectTest: HnRectTest.o $(LIB)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $@.o \
+	$(LDFLAGS) $(LDLIBS) $(LIB) $(TEST_LIBS)
+
+depend: $(SRCS) Makefile
+	$(DEPEND) $(DEPENDFLAGS) -- $(CXXFLAGS) $(CPPFLAGS) -- $(SRCS)
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.
