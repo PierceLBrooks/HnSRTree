@@ -1,37 +1,14 @@
-#
-# Makefile for HnSRTree/test
-# Copyright (C) 1997 Norio Katayama
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Library General Public
-# License as published by the Free Software Foundation; either
-# version 2 of the License, or (at your option) any later version.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Library General Public License for more details.
-#
-# You should have received a copy of the GNU Library General Public
-# License along with this library; if not, write to the Free
-# Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-#
-# 06/09/96 katayama@rd.nacsis.ac.jp
-# $Id: Makefile,v 1.3 2000/06/08 11:43:42 katayama Exp $
-#
+CFLAGS = /nologo
 
-all:
+all: extans.exe cmp.exe libHnSRTree.dll
 
-includes:
+libHnSRTree.dll: ..\lib\libHnSRTree.dll
+	copy ..\lib\libHnSRTree.dll .
 
 clean:
-	rm -f a.out core *.bak *.tmp *~ \#*\# *.idx *.log
-
-realclean: clean
-
-distclean: clean
-
-install:
-
-depend:
-
+	del *.obj
+	del *.exe
+	del libHnSRTree.dll
+	del *.tmp
+	del *.idx
+	del *.log
