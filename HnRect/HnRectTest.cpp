@@ -21,6 +21,8 @@
  * $Id: HnRectTest.cc,v 1.6 2000/06/10 11:19:21 katayama Exp $
  */
 
+#if ((defined(HNRECT_TESTING)) || (!defined(HNRECT_CMAKE)))
+
 #include "HnSRTree/HnString.hh"
 #include "HnSRTree/HnRect.hh"
 
@@ -93,4 +95,6 @@ main(void)
 
     return 0;
 }
+
+#endif
 

@@ -31,13 +31,6 @@
 #include "HnSRTree/HnAbort.h"
 #include "HnSRTree/HnMalloc.h"
 
-#ifndef HAVE_MEMMOVE
-extern "C" {
-	extern void bcopy(void *s1, void *s2, int len);
-};
-#define memmove(dst, src, n)	bcopy(src, dst, n)
-#endif
-
 class HnPointer;
 class HnString;
 

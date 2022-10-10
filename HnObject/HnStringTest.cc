@@ -21,6 +21,8 @@
  * $Id: HnStringTest.cc,v 1.4 2000/06/10 11:18:37 katayama Exp $
  */
 
+#if ((defined(HNOBJECT_TESTING)) || (!defined(HNOBJECT_CMAKE)))
+
 #include <stdio.h>
 #include "HnSRTree/HnString.hh"
 
@@ -134,3 +136,6 @@ main(void)
 
 	return 0;
 }
+
+#endif
+

@@ -21,6 +21,8 @@
  * $Id: HnFTypeArrayTest.cc,v 1.3 2000/06/10 11:18:23 katayama Exp $
  */
 
+#if ((defined(HNOBJECT_TESTING)) || (!defined(HNOBJECT_CMAKE)))
+
 #include "HnSRTree/HnFTcharArray.hh"
 #include "HnSRTree/HnFTintArray.hh"
 #include "HnSRTree/HnFTlongArray.hh"
@@ -199,3 +201,6 @@ main(void) {
     testDouble();
     testPointer();
 }
+
+#endif
+

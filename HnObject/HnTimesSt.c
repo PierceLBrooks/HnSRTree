@@ -29,6 +29,7 @@
 #ifdef _MSC_VER
 #include <windows.h>
 #else
+#include <sys/time.h>
 #ifdef HAVE_GETRUSAGE
 #include <sys/resource.h>
 #else

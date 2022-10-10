@@ -21,6 +21,8 @@
  * $Id: HnBlockFileTest.cc,v 1.2 2000/06/10 11:18:19 katayama Exp $
  */
 
+#if ((defined(HNOBJECT_TESTING)) || (!defined(HNOBJECT_CMAKE)))
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "HnSRTree/HnBlockFile.hh"
@@ -268,3 +270,6 @@ main(void)
 
     return 0;
 }
+
+#endif
+

@@ -21,6 +21,8 @@
  * $Id: HnClassArrayTest.cc,v 1.1 2000/06/06 09:27:07 katayama Exp $
  */
 
+#if ((defined(HNOBJECT_TESTING)) || (!defined(HNOBJECT_CMAKE)))
+
 #include "HnString.hh"
 
 void
@@ -161,3 +163,6 @@ main(void) {
     testVector();
     testPointer();
 }
+
+#endif
+

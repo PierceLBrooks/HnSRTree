@@ -21,6 +21,8 @@
  * $Id: HnRangeTest.cc,v 1.5 2000/06/10 11:19:18 katayama Exp $
  */
 
+#if ((defined(HNRECT_TESTING)) || (!defined(HNRECT_CMAKE)))
+
 #include "HnSRTree/HnString.hh"
 #include "HnSRTree/HnRange.hh"
 
@@ -256,3 +258,6 @@ main(int, char *[])
 
     return 0;
 }
+
+#endif
+

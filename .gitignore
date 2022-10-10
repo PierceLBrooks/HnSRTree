@@ -1,6 +1,7 @@
 Makefile
 config.*
 stamp-h
+.DS_Store
 *.o
 *.obj
 *.a
