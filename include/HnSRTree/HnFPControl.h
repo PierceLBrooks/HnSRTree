@@ -27,6 +27,25 @@
 extern "C" {
 #endif
 
+#ifdef __APPLE__
+/*
+ * Apple
+ */
+
+#define HnFPControl_ROUND_NEAREST	(1 << 0)
+#define HnFPControl_ROUND_ZERO		(1 << 1)
+#define HnFPControl_ROUND_PLUS		(1 << 2)
+#define HnFPControl_ROUND_MINUS		(1 << 3)
+
+inline int HnFPControl_setRound(int flag) {
+    return flag;
+}
+inline int HnFPControl_getRound(void) {
+    return 0;
+}
+
+#else
+
 #ifdef _MSC_VER
 /*
  * Windows
@@ -119,6 +138,7 @@ inline int HnFPControl_setRound(int flag) {
 inline int HnFPControl_getRound(void) {
     return fpgetround();
 }
+#endif
 #endif
 #endif
 

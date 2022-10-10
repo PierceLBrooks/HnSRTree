@@ -17,6 +17,6 @@ set_option(HNRECT_LINKAGE STATIC STRING "Choose the type of library linkage for 
 set_option(HNSRTREE_LINKAGE STATIC STRING "Choose the type of library linkage for the HnSRTree module (\"STATIC\" or \"SHARED\")")
 
 add_subdirectory(HnObject)
-#add_subdirectory(HnRect)
-#add_subdirectory(HnSRTree)
+add_subdirectory(HnRect)
+add_subdirectory(HnSRTree)
 

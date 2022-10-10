@@ -32,37 +32,6 @@
 
 #define BufferSize	4096
 
-/************************************************************************
- *
- * Utility function getting the system error message string
- *
- ************************************************************************/
-
-#ifndef HAVE_STRERROR
-#define strerror        mystrerror
-
-static const char *
-strerror(int errnum) {
-    extern int sys_nerr;
-#ifdef _MSC_VER
-#if _MSC_VER >= 1400
-    extern char ** sys_errlist;
-#else
-    extern char * sys_errlist[];
-#endif
-#else
-    extern const char * const sys_errlist[];
-#endif
-
-    if ( errnum >= 0 && errnum < sys_nerr ) {
-	return sys_errlist[errnum];
-    }
-    else {
-	return NULL;
-    }
-}
-#endif
-
 /*
  * HnGetSystemErrorMessage()
  */
