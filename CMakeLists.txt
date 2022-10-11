@@ -20,3 +20,5 @@ add_subdirectory(HnObject)
 add_subdirectory(HnRect)
 add_subdirectory(HnSRTree)
 
+install(FILES ${PROJECT_BINARY_DIR}/HnSRTree/config.h DESTINATION ${CMAKE_INSTALL_PREFIX}/include/HnSRTree)
+
