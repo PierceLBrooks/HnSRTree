@@ -50,6 +50,7 @@ target_compile_features(HnObject PRIVATE cxx_std_14)
 target_include_directories(HnObject PRIVATE ${PROJECT_BINARY_DIR})
 target_include_directories(HnObject PRIVATE ${CMAKE_CURRENT_LIST_DIR})
 target_include_directories(HnObject PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../include)
-set_target_properties(HnObject PROPERTIES PUBLIC_HEADER "${HNOBJECT_HEADERS}")
+#set_target_properties(HnObject PROPERTIES PUBLIC_HEADER "${HNOBJECT_HEADERS}")
 install(TARGETS HnObject)
+install(FILES ${HNOBJECT_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/HnSRTree)
 
