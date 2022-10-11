@@ -16,5 +16,5 @@ target_include_directories(HnSRTree PRIVATE ${CMAKE_CURRENT_LIST_DIR})
 target_include_directories(HnSRTree PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../include)
 #set_target_properties(HnSRTree PROPERTIES PUBLIC_HEADER "${HNSRTREE_HEADERS}")
 install(TARGETS HnSRTree)
-install(FILES ${HNSRTREE_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/HnSRTree)
+install(FILES ${HNSRTREE_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/HnSRTree)
 
