@@ -26,7 +26,7 @@
 
 #ifndef _HNSRTIMP
 #ifdef _MSC_VER
-#define _HNSRTIMP _declspec(dllimport)
+#define _HNSRTIMP _declspec(dllexport)
 #else
 #define _HNSRTIMP
 #endif

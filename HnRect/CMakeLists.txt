@@ -1,5 +1,8 @@
 
+set(HNRECT_DEFINES )
 set(HNRECT_FILES )
+
+list(APPEND HNRECT_DEFINES "HNRECT_CMAKE")
 
 file(GLOB HNRECT_HEADERS ${CMAKE_CURRENT_LIST_DIR}/*.*h)
 file(GLOB HNRECT_SOURCES ${CMAKE_CURRENT_LIST_DIR}/*.*c)
@@ -8,7 +11,7 @@ list(APPEND HNRECT_FILES ${HNRECT_SOURCES})
 
 add_library(HnRect ${HNRECT_LINKAGE} ${HNRECT_FILES})
 target_link_libraries(HnRect PRIVATE HnObject)
-target_compile_definitions(HnRect PRIVATE HNRECT_CMAKE)
+target_compile_definitions(HnRect PRIVATE ${HNRECT_DEFINES})
 target_compile_features(HnRect PRIVATE cxx_std_14)
 target_include_directories(HnRect PRIVATE ${PROJECT_BINARY_DIR})
 target_include_directories(HnRect PRIVATE ${CMAKE_CURRENT_LIST_DIR})

@@ -1,7 +1,10 @@
 
 find_program(PERL_EXECUTABLE NAMES perl)
 
+set(HNOBJECT_DEFINES )
 set(HNOBJECT_FILES )
+
+list(APPEND HNOBJECT_DEFINES "HNOBJECT_CMAKE")
 
 file(GLOB HNOBJECT_HEADERS ${CMAKE_CURRENT_LIST_DIR}/*.*h)
 file(GLOB HNOBJECT_SOURCES ${CMAKE_CURRENT_LIST_DIR}/*.*c)
@@ -45,7 +48,7 @@ add_custom_command(
 
 add_library(HnObject ${HNOBJECT_LINKAGE} ${HNOBJECT_FILES})
 add_dependencies(HnObject perl_obj2ptr)
-target_compile_definitions(HnObject PRIVATE HNOBJECT_CMAKE)
+target_compile_definitions(HnObject PRIVATE ${HNOBJECT_DEFINES})
 target_compile_features(HnObject PRIVATE cxx_std_14)
 target_include_directories(HnObject PRIVATE ${PROJECT_BINARY_DIR})
 target_include_directories(HnObject PRIVATE ${CMAKE_CURRENT_LIST_DIR})
