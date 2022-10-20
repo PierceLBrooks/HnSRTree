@@ -29,7 +29,7 @@
 #endif
 #include "HnSRTree/config.h"
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 #include <windows.h>
 #else
 #include <sys/time.h>
@@ -62,7 +62,7 @@ HnTimesObj::HnTimesObj(void)
 void
 HnTimesObj::setCurrentTimes(void)
 {
-#ifdef _MSC_VER
+#ifdef _WIN32
     FILETIME creationTime, exitTime, kernelTime, userTime;
     SYSTEMTIME currentSystemTime;
     FILETIME currentTime;

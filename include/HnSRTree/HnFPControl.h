@@ -46,7 +46,7 @@ inline int HnFPControl_getRound(void) {
 
 #else
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 /*
  * Windows
  */

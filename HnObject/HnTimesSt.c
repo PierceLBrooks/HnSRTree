@@ -26,7 +26,7 @@
 #include "HnSRTree/HnMalloc.h"
 #include "HnSRTree/config.h"
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 #include <windows.h>
 #else
 #include <sys/time.h>
@@ -96,7 +96,7 @@ HnTimesSt_getCPUTime(const HnTimesSt *tp)
 void
 HnTimesSt_setCurrentTimes(HnTimesSt *tp)
 {
-#ifdef _MSC_VER
+#ifdef _WIN32
     FILETIME creationTime, exitTime, kernelTime, userTime;
     SYSTEMTIME currentSystemTime;
     FILETIME currentTime;
